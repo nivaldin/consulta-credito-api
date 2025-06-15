@@ -1,57 +1,135 @@
 # Consulta Crédito API
 
-Este projeto é uma API REST desenvolvida em Java com Spring Boot para consulta de créditos fiscais, como parte de um desafio técnico.
+API REST em Java (Spring Boot) para consulta de créditos fiscais.
 
-## Estrutura do Projeto
+## Tecnologias
 
-- **Spring Boot** 3.5.0
-- **Java** 17
-- **Banco de Dados:** PostgreSQL
-- **ORM:** Spring Data JPA
-- **Testes:** JUnit 5, Mockito
+- Java 17
+- Spring Boot 3.5.0
+- Spring Data JPA
+- PostgreSQL
+- Docker/Docker Compose
+- JUnit 5, Mockito
+- Lombok
 
-## Como executar
+## Como executar localmente
 
-1. Certifique-se de ter o PostgreSQL rodando e crie o banco `desafio`:
-   ```sql
-   CREATE DATABASE desafio;
-   ```
-2. Configure o acesso ao banco em [`src/main/resources/application.properties`](src/main/resources/application.properties) se necessário.
-3. Compile e execute o projeto:
+1. **Suba o banco de dados e a API com Docker Compose:**
    ```sh
-   ./mvnw spring-boot:run
+   docker-compose up --build
    ```
-   ou
-   ```sh
-   mvnw.cmd spring-boot:run
-   ```
-4. A API estará disponível em [http://localhost:8080](http://localhost:8080).
+   Isso irá:
+   - Criar o banco `desafio` no PostgreSQL (porta 5432)
+   - Executar scripts de criação e carga inicial em [`initdb/`](initdb/)
+   - Subir a API na porta 8080
+
+2. **Configuração manual (sem Docker):**
+   - Crie o banco `desafio` no PostgreSQL:
+     ```sql
+     CREATE DATABASE desafio;
+     ```
+   - Ajuste as variáveis de ambiente ou edite [`src/main/resources/application.properties`](src/main/resources/application.properties) com as credenciais do banco.
+   - Compile e execute:
+     ```sh
+     ./mvnw spring-boot:run
+     ```
 
 ## Endpoints principais
 
 - `GET /api/creditos/{numeroNfse}`  
   Consulta créditos pelo número da NFSe.
+
 - `GET /api/creditos/credito/{numeroCredito}`  
   Consulta créditos pelo número do crédito.
 
-## Executando os testes
+## Scripts SQL
 
+- [`initdb/01_init_table.sql`](initdb/01_init_table.sql): Criação da tabela `credito`
+- [`initdb/02_init_insert.sql`](initdb/02_init_insert.sql): Dados de exemplo
+
+## Testes
+
+Execute os testes automatizados:
 ```sh
 ./mvnw test
 ```
 
-## Tecnologias e dependências
+## Estrutura principal do projeto
 
-- [Spring Boot Starter Data JPA](https://spring.io/projects/spring-data-jpa)
-- [Spring Boot Starter Web](https://spring.io/projects/spring-boot)
-- [PostgreSQL Driver](https://jdbc.postgresql.org/)
-- [Lombok](https://projectlombok.org/)
-- [JUnit 5](https://junit.org/junit5/)
-- [Mockito](https://site.mockito.org/)
+- [`src/main/java/br/com/nivaldoservices/consulta_credito_api/`](src/main/java/br/com/nivaldoservices/consulta_credito_api/): Código fonte principal
+- [`src/test/java/br/com/nivaldoservices/consulta_credito_api/`](src/test/java/br/com/nivaldoservices/consulta_credito_api/): Testes automatizados
 
 ## Observações
 
-- O pacote base do projeto é `br.com.nivaldoservices.consulta_credito_api`.
-- O projeto utiliza Lombok para reduzir boilerplate.
+- O projeto utiliza variáveis de ambiente para configuração do banco em produção.
 - O banco de dados é atualizado automaticamente (`spring.jpa.hibernate.ddl-auto=update`).
+- O projeto utiliza Lombok para reduzir código boilerplate.
 
+---
+```// filepath: HELP.md
+# Consulta Crédito API
+
+API REST em Java (Spring Boot) para consulta de créditos fiscais.
+
+## Tecnologias
+
+- Java 17
+- Spring Boot 3.5.0
+- Spring Data JPA
+- PostgreSQL
+- Docker/Docker Compose
+- JUnit 5, Mockito
+- Lombok
+
+## Como executar localmente
+
+1. **Suba o banco de dados e a API com Docker Compose:**
+   ```sh
+   docker-compose up --build
+   ```
+   Isso irá:
+   - Criar o banco `desafio` no PostgreSQL (porta 5432)
+   - Executar scripts de criação e carga inicial em [`initdb/`](initdb/)
+   - Subir a API na porta 8080
+
+2. **Configuração manual (sem Docker):**
+   - Crie o banco `desafio` no PostgreSQL:
+     ```sql
+     CREATE DATABASE desafio;
+     ```
+   - Ajuste as variáveis de ambiente ou edite [`src/main/resources/application.properties`](src/main/resources/application.properties) com as credenciais do banco.
+   - Compile e execute:
+     ```sh
+     ./mvnw spring-boot:run
+     ```
+
+## Endpoints principais
+
+- `GET /api/creditos/{numeroNfse}`  
+  Consulta créditos pelo número da NFSe.
+
+- `GET /api/creditos/credito/{numeroCredito}`  
+  Consulta créditos pelo número do crédito.
+
+## Scripts SQL
+
+- [`initdb/01_init_table.sql`](initdb/01_init_table.sql): Criação da tabela `credito`
+- [`initdb/02_init_insert.sql`](initdb/02_init_insert.sql): Dados de exemplo
+
+## Testes
+
+Execute os testes automatizados:
+```sh
+./mvnw test
+```
+
+## Estrutura principal do projeto
+
+- [`src/main/java/br/com/nivaldoservices/consulta_credito_api/`](src/main/java/br/com/nivaldoservices/consulta_credito_api/): Código fonte principal
+- [`src/test/java/br/com/nivaldoservices/consulta_credito_api/`](src/test/java/br/com/nivaldoservices/consulta_credito_api/): Testes automatizados
+
+## Observações
+
+- O projeto utiliza variáveis de ambiente para configuração do banco em produção.
+- O banco de dados é atualizado automaticamente (`spring.jpa.hibernate.ddl-auto=update`).
+- O projeto utiliza Lombok para reduzir código boilerplate.
